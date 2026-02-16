@@ -48,6 +48,14 @@
             border: none;
             cursor: pointer;
         }
+
+        .signup-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -76,6 +84,7 @@
                 />
             </div>
             <button type="submit">Iniciar Sesión</button>
+            <a href="#" id="signupLink" class="signup-link">Registrarse</a>
         </form>
     </div>
      <script>
@@ -96,6 +105,11 @@
             }
             
             window.location.href = 'home.html';
+        });
+
+        document.getElementById('signupLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'signup.html';
         });
     </script>
 </body>
