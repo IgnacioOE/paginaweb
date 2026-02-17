@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .contenedor h2 {
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+        .contenedor {
+            background: white;
+            padding: 10px;
+            width: 800px;
+            margin: 10px auto;
+            text-align: center;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            width: 100%;
+            height: 250px;
+        }
+    </style>
+</head>
+<body>
+    <script src="navbar.js"></script>
+    <div class="contenedor">
+        <h2>Galería</h2>
+
+        <div class="image-grid">
+            <img src="images/campus1.jpg" alt="Imagen 1" class="grid-item">
+            <img src="images/campus2.jpg" alt="Imagen 2" class="grid-item">
+            <img src="images/campus3.jpg" alt="Imagen 3" class="grid-item">
+            <img src="images/campus4.jpg" alt="Imagen 4" class="grid-item">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 70px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: black;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #999;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Registro</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="correo">Correo electrónico</label>
+                <input 
+                    type="email" 
+                    id="correo" 
+                    name="correo"
+                    placeholder="Ingrese su correo" 
+                    required
+                />
+            </div>
+            <div class="form-group">
+                <label for="contrasena">Contraseña</label>
+                <input 
+                    type="password" 
+                    id="contrasena" 
+                    name="contrasena"
+                    placeholder="Ingrese su contraseña" 
+                    required
+                    autocomplete="new-password"
+                />
+            </div>
+            <div class="form-group">
+                <label for="ccontrasena">Confirme su contraseña</label>
+                <input 
+                    type="password" 
+                    id="ccontrasena" 
+                    name="ccontrasena"
+                    placeholder="Confirme su contraseña" 
+                    required
+                    autocomplete="new-password"
+                />
+            </div>
+            <button type="submit">Registrarse</button>
+            <a href="#" id="loginLink" class="login-link">¿Ya tienes cuenta? Inicia sesión</a>
+        </form>
+    </div>
+     <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
+            var ccontrasena = document.getElementById('ccontrasena').value;
+
+            if (correo.trim() === '' || contrasena.trim() === '' || ccontrasena.trim() === '') {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+            
+            if (!correo.includes('@')) {
+                alert('El correo debe contener @');
+                return;
+            }
+            
+            if (contrasena !== ccontrasena) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+
+            alert('Su cuenta se ha registrado exitosamente.');
+            window.location.href = 'login.html';
+        });
+
+        document.getElementById('loginLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
