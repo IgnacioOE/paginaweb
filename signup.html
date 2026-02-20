@@ -58,7 +58,7 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Registro</h2>
+        <h2>Crear cuenta</h2>
         <form id="signupForm">
             <div class="form-group">
                 <label for="correo">Correo electrónico</label>
@@ -119,8 +119,30 @@
                 return;
             }
 
-            alert('Su cuenta se ha registrado exitosamente.');
-            window.location.href = 'login.html';
+
+            fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: correo,
+                    password: contrasena
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Su cuenta se ha registrado exitosamente en el sistema.');
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error al conectar con el servidor.');
+            });
         });
 
         document.getElementById('loginLink').addEventListener('click', function(e) {
@@ -128,6 +150,5 @@
             window.location.href = 'login.html';
         });
     </script>
-    <script src="footer.js"></script>
 </body>
 </html>

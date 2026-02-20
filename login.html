@@ -88,7 +88,7 @@
         </form>
     </div>
      <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             var correo = document.getElementById('correo').value;
@@ -104,7 +104,26 @@
                 return;
             }
             
-            window.location.href = 'home.html';
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: correo, password: contrasena })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = 'home.html';
+                } else {
+                    alert(data.error || 'El correo y/o la contraseña son incorrectos');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión con el servidor');
+            }
         });
 
         document.getElementById('signupLink').addEventListener('click', function(e) {
