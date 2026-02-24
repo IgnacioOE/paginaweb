@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </ul>
             </div>
             <div class="nav-right">
-                <a href="login.html" class="logout-btn">Cerrar Sesión</a>
+                <a <a href="#" onclick="logout()" class="logout-btn">Cerrar Sesión</a>
             </div>
         </nav>
 
