@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </ul>
             </div>
             <div class="nav-right">
-                <a href="login.html" class="logout-btn">Cerrar Sesión</a>
+                <a <a href="#" onclick="logout()" class="logout-btn">Cerrar Sesión</a>
             </div>
         </nav>
 
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             .navbar {
-                padding: 10px 30px;
+                padding: 15px 30px;
                 background-color: #333;
                 display: flex;
                 justify-content: space-between;

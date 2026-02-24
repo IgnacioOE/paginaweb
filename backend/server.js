@@ -2,9 +2,11 @@
 
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const { saveUser, getUsers } = require('./userHandler'); 
 const app = express();
 const PORT = 3000;
+const SECRET_KEY = 'token123';
 
 app.use(cors()); 
 app.use(express.json());
@@ -35,7 +37,8 @@ app.post('/api/login', (req, res) => {
     const user = users.find(u => u.email === email && u.password === password);
 
     if (user) {
-        res.json({ success: true, message: 'Login exitoso' });
+        const token = jwt.sign({ email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+        res.json({ success: true, message: 'Login exitoso', token: token });
     } else {
         res.status(401).json({ success: false, error: 'El correo y/o la contraseña son incorrectos' });
     }

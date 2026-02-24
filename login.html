@@ -116,6 +116,7 @@
                 const data = await response.json();
 
                 if (data.success) {
+                    localStorage.setItem('userToken', data.token);
                     window.location.href = 'home.html';
                 } else {
                     alert(data.error || 'El correo y/o la contraseña son incorrectos');
