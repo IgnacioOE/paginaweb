@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             .navbar {
-                padding: 10px 30px;
+                padding: 15px 30px;
                 background-color: #333;
                 display: flex;
                 justify-content: space-between;
