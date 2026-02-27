@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <li><a href="home.html">Inicio</a></li>
                     <li><a href="pag1.html">Página 1</a></li>
                     <li><a href="pag2.html">Página 2</a></li>
+                    <li><a href="pokemon.html">Pokémon</a></li>
                 </ul>
             </div>
             <div class="nav-right">

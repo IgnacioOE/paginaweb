@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon</title>
+    <script src="backend/auth.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .content {
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        #pokemonImage {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; 
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    
+    <script src="components/navbar.js"></script>
+    <div class="content">
+        <h2>Información del Pokémon</h2>
+        <p><strong>Nº Pokedex:</strong> <span id="pokemonId"></span></p>
+        <p><strong>Nombre:</strong> <span id="pokemonName">Cargando...</span></p>
+        <p><strong>Tipo:</strong> <span id="pokemonType"></span></p>
+        <p><strong>Habilidades:</strong> <span id="pokemonAbilities"></span></p>
+        
+        <div class="stats-row">
+            <img id="pokemonImage" src="" alt="Imagen" style="display: none;">
+            <div>
+                <strong style="font-size: 1.3em;">Stats</strong> <span id="pokemonStats"></span>
+            </div>
+        </div>
+    </div>
+    <script src="components/footer.js"></script>
+    <script src="backend/pokefetch.js"></script>
+</body>
+</html>
