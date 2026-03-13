@@ -68,6 +68,8 @@ let p2SpecialDefActive = false;
 let battleOver = false;
 let p1TurnCount = 0;
 let p2TurnCount = 0;
+let p1LastDef = -99;
+let p2LastDef = -99;
 let p1LastSpecialAttack = -99;
 let p2LastSpecialAttack = -99;
 let p1LastSpecialDef = -99;
@@ -112,16 +114,18 @@ function finishBattleByWinner(winner, message) {
 
 function pickMove(isP1) {
     const actorTurn = isP1 ? p1TurnCount : p2TurnCount;
-    const lastSpecialAtk = isP1 ? p1LastSpecialAttack : p2LastSpecialAttack;
+    const lastDef = isP1 ? p1LastDef : p2LastDef;
     const lastSpecialDef = isP1 ? p1LastSpecialDef : p2LastSpecialDef;
     const available = BATTLE_MOVES.filter(m => {
         if (m.type === 'special-attack') {
             if (actorTurn < 4) return false;
-            if ((actorTurn - lastSpecialAtk) < 3) return false;
         }
         if (m.type === 'special-defense') {
             if (actorTurn < 3) return false;
             if ((actorTurn - lastSpecialDef) < 2) return false;
+        }
+        if (m.type === 'defense') {
+            if ((actorTurn - lastDef) < 2) return false;
         }
         return true;
     });
@@ -133,13 +137,13 @@ function applyMove(move, attackerName, defenderName, isP1Attacker) {
     const hit = Math.random() < move.accuracy;
 
     if (!hit) {
-        battleLog(attackerName + ' usó ' + move.name + '... ¡y falló!', actorType);
+        battleLog(attackerName + ' usó ' + move.name + '... ¡el movimiento ha fallado!', actorType);
         return;
     }
 
     if (move.type === 'defense') {
-        if (isP1Attacker) p1DefenseActive = true;
-        else p2DefenseActive = true;
+        if (isP1Attacker) { p1DefenseActive = true; p1LastDef = p1TurnCount; }
+        else { p2DefenseActive = true; p2LastDef = p2TurnCount; }
         battleLog(attackerName + ' usó ' + move.name + '. ¡Bloqueará el próximo golpe recibido!', actorType);
         return;
     }
@@ -247,6 +251,8 @@ function startBattle(name1, name2) {
     battleOver = false;
     p1TurnCount = 0;
     p2TurnCount = 0;
+    p1LastDef = -99;
+    p2LastDef = -99;
     p1LastSpecialAttack = -99;
     p2LastSpecialAttack = -99;
     p1LastSpecialDef = -99;
