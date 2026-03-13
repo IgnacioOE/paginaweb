@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Batalla Pokémon</title>
+    <script src="backend/auth.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .battle-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .battle-arena {
+            background-image: url('images/backgrounds/pokeBackground.png');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            width: 100%;
+            max-width: 650px;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            border-radius: 12px;
+            color: black;
+        }
+
+        .status-box {
+            position: absolute;
+            width: 40%;
+            background: rgb(234, 220, 138);
+            border: 4px solid #baa25d;
+            border-radius: 12px;
+            padding: 15px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .status-box.player {
+            bottom: 3%;
+            right: 5%;
+        }
+
+        .status-box.opponent {
+            top: 5%;
+            left: 5%;
+        }
+
+        .status-box h2 {
+            text-transform: capitalize;
+            font-size: 1em;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .sprite-box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 5;
+        }
+
+        .sprite-box.player {
+            bottom: 0%;
+            left: 10%;
+            width: 225px;
+            height: 225px;
+        }
+
+        .sprite-box.player img {
+            max-height: 100%;
+            max-width: 100%;
+            transform: scale(-1.4, 1.4);
+            transform-origin: bottom center;
+            filter: drop-shadow(0px 15px 12px rgba(0,0,0,0.6));
+            opacity: 1;
+            transition: opacity 0.7s ease;
+        }
+
+        .sprite-box.opponent {
+            top: 0%;
+            right: 7%;
+            width: 225px;
+            height: 225px;
+        }
+
+        .sprite-box.opponent img {
+            max-height: 100%;
+            max-width: 100%;
+            filter: drop-shadow(0px 10px 8px rgba(0,0,0,0.5));
+            opacity: 1;
+            transition: opacity 0.7s ease;
+        }
+
+        .health-container {
+            flex: 1;
+            background-color: #444;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            height: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .health-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-box.player .health-row {
+            justify-content: flex-end;
+        }
+
+        .health-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 60%;
+            transition: width 0.3s ease;
+        }
+
+        .health-text {
+            font-size: 1em;
+            font-weight: bold;
+            margin: 0;
+            min-width: 42px;
+        }
+
+        .status-box.player .health-text {
+            text-align: right;
+        }
+
+        .controls {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+            color: white;
+        }
+
+        .controls button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #e01818;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .controls button:hover {
+            transform: scale(1.05);
+            background-color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <script src="components/navbar.js"></script>
+
+    <div class="battle-container">
+        <div class="battle-arena" id="arena">
+          
+            <div class="status-box opponent">
+                <h2 id="name2">Cargando...</h2>
+                <div class="health-row">
+                    <div class="health-container">
+                        <div class="health-bar" id="hp2"></div>
+                    </div>
+                    <p class="health-text" id="hpText2">100%</p>
+                </div>
+            </div>
+            <div class="sprite-box opponent">
+                <img id="img2" src="" alt="Fighter 2">
+            </div>
+
+            <div class="sprite-box player">
+                <img id="img1" src="" alt="Fighter 1">
+            </div>
+            <div class="status-box player">
+                <h2 id="name1">Cargando...</h2>
+                <div class="health-row">
+                    <div class="health-container">
+                        <div class="health-bar" id="hp1"></div>
+                    </div>
+                    <p class="health-text" id="hpText1">100%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="components/battleLog.js"></script>
+
+    <div class="controls">
+        <button onclick="window.location.href='pokemon.html'">Terminar Batalla</button>
+    </div>
+
+    <script src="components/footer.js"></script>
+    <script src="scripts/moves.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const battleData = localStorage.getItem('battlePokemon');
+
+            if (battleData) {
+                const pokemon = JSON.parse(battleData);
+
+                if (pokemon.length === 2) {
+                    const p1 = pokemon[0];
+                    const p2 = pokemon[1];
+
+                    document.getElementById('name1').textContent = p1.name;
+                    document.getElementById('img1').src = p1.image;
+                    document.getElementById('name2').textContent = p2.name;
+                    document.getElementById('img2').src = p2.image;
+
+                    startBattle(p1.name, p2.name);
+                } else {
+                    alert('Faltan datos de los Pokémon');
+                    window.location.href = 'pokemon.html';
+                }
+            } else {
+                window.location.href = 'pokemon.html';
+            }
+        });
+    </script>
+</body>
+</html>

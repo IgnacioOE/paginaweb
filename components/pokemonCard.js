@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p><strong>Nombre:</strong> <span id="pokemonName">Cargando...</span></p>
                 <p><strong>Tipo:</strong> <span id="pokemonType"></span></p>
                 <p><strong>Habilidades:</strong> <span id="pokemonAbilities"></span></p>
+                <button id="choosePokemonBtn" style="margin-top: 15px; padding: 10px 20px; font-size: 1.1em; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Elegir Pokémon</button>
             
                 <div class="stats-row">
                     <img id="pokemonImage" src="" alt="Imagen" style="display: none;">
@@ -67,6 +68,58 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const card = document.getElementById('PokemonCard');
     const closeCardBtn = document.getElementById('closeCard');
+    const choosePokemonBtn = document.getElementById('choosePokemonBtn');
+    const battleButton = document.getElementById('battleButton');
+
+    window.chosenPokemonForBattle = window.chosenPokemonForBattle || [];
+
+    choosePokemonBtn.addEventListener('click', () => {
+        const id = document.getElementById('pokemonId').textContent;
+        const name = document.getElementById('pokemonName').textContent;
+        const image = document.getElementById('pokemonImage').src;
+
+
+        if (window.chosenPokemonForBattle.find(p => p.id === id)) {
+            alert(name + " ya está elegido para la batalla.");
+            return;
+        }
+
+        if (window.chosenPokemonForBattle.length < 2) {
+            window.chosenPokemonForBattle.push({ id, name, image });
+            console.log("Elegido:", name, window.chosenPokemonForBattle);
+            alert("Has elegido a " + name + " para la batalla!");
+            
+            if (battleButton) {
+                battleButton.textContent = "Batalla (" + window.chosenPokemonForBattle.length + "/2)";
+                if (window.chosenPokemonForBattle.length === 2) {
+                    battleButton.disabled = false;
+                    battleButton.style.backgroundColor = "#e01818";
+                    battleButton.style.cursor = "pointer";
+                    battleButton.textContent = "Iniciar Batalla";
+                }
+            }
+            card.style.display = 'none';
+        } else {
+            alert("Ya has elegido 2 Pokémon.");
+        }
+    });
+
+    if (battleButton) {
+        battleButton.addEventListener('click', () => {
+            if (window.chosenPokemonForBattle.length === 2) {
+                localStorage.setItem('battlePokemon', JSON.stringify(window.chosenPokemonForBattle));
+
+                // Reiniciar para la siguiente batalla
+                window.chosenPokemonForBattle = [];
+                battleButton.textContent = "Batalla (0/2)";
+                battleButton.disabled = true;
+                battleButton.style.backgroundColor = "#ccc";
+                battleButton.style.cursor = "not-allowed";
+
+                window.location.href = 'battle.html';
+            }
+        });
+    }
 
     closeCardBtn.addEventListener('click', () => {
         card.style.display = 'none';
