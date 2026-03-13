@@ -57,6 +57,24 @@
         .controls-container input {
             width: 300px;
         }
+        .battle-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #ccc;
+            color: white;
+            cursor: not-allowed;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .battle-btn.ready {
+            background-color: #e01818;
+            cursor: pointer;
+        }
+        .battle-btn.ready:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -68,8 +86,11 @@
         <select id="typeFilter">
             <option value="">Todos los tipos</option>
         </select>
+        
     </div>
-
+    <div>
+        <button id="battleButton" class="battle-btn" disabled>Batalla (0/2)</button>
+    </div>
     <div class="catalog-container" id="catalogList">
         <p style="grid-column: 1 / -1;">Cargando Pokédex...</p>
     </div>
